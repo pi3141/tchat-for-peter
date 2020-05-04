@@ -1,0 +1,18 @@
+body {
+    font-family: 'Jost', sans-serif;
+    background-color: cadetblue;
+}
+
+.post {
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, .5);
+    padding: 20px;
+}
+
+.big-icon {
+    font-size: xxx-large;
+}
+
+.big-text {
+    font-size: 1.4rem;
+}
