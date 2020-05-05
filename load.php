@@ -1,13 +1,6 @@
 <?php
 
-try
-{
-    $bdd = new PDO('mysql:host=localhost;dbname=tchat;charset=utf8', 'root', 'bingo',  array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-}
-catch (Exception $e)
-{
-    die('Erreur : ' . $e->getMessage());
-}
+include 'connect.php';
 
 if (!empty($_GET['id'])) {
 
