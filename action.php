@@ -2,7 +2,7 @@
 include 'connect.php';
 include 'functions.php';
 
-if (!empty($_POST['message']) && !empty($_POST['pseudo'])){
+if (!empty($_POST['message'])){
 
     $now = new DateTime('now');
 
@@ -19,7 +19,4 @@ if (!empty($_POST['message']) && !empty($_POST['pseudo'])){
     $data['dateFormatted'] = $now->format('d/m/Y H:i');
 
     echo getMessageDisplay($data);
-}
-else{
-    echo "Vous avez oublié de remplir un des champs !";
 }

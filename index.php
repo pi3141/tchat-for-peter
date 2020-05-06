@@ -9,18 +9,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Jost&display=swap" rel="stylesheet">
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link href="style.css" rel="stylesheet">
+<link rel="icon" href="favicon.ico" type="image/x-icon">
 
 <div class="container">
     <?php
     $sessionOpened = false;
+    session_set_cookie_params(3600 * 24 * 30,"/");
     session_start();
-    session_destroy();
 
     if (empty($_SESSION['pseudo'])) {
         if (isset($_POST['pseudo'])) {
             $_SESSION['pseudo'] = $_POST['pseudo'];
             $sessionOpened = true;
         }
+    } else {
+        $sessionOpened = true;
     }
 
     if ($sessionOpened) {
