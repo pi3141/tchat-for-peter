@@ -1,23 +1,18 @@
 <?php
 
 include 'connect.php';
+include 'functions.php';
 
-if (!empty($_GET['id'])) {
+$query = $bdd->prepare('SELECT id, pseudo, message, DATE_FORMAT(creationDate, "%e/%m %H:%i") as dateFormatted, status FROM messages WHERE status = :status ORDER BY creationDate DESC LIMIT 0,10');
 
-    include 'functions.php';
+$query->execute([
+    'status' =>  $_GET['status'] ?? 'VALIDE'
+]);
 
-    $id = (int)$_GET['id'];
+$messages = '';
 
-    $query = $bdd->prepare('SELECT id, pseudo, message, DATE_FORMAT(creationDate, "%Y") as dateFormatted FROM messages WHERE id > :id ORDER BY id DESC');
-    $query->execute(array("id" => $id));
-
-    $messages = '';
-
-    while ($data = $query->fetch()) {
-        $messages .= getMessageDisplay($data);
-    }
-
-    echo $messages;
+while ($data = $query->fetch()) {
+    $messages .= getMessageDisplay($data);
 }
 
-
+echo $messages;

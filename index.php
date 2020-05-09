@@ -7,23 +7,49 @@
 <body>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/css2?family=Jost&display=swap" rel="stylesheet">
-<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/75e926a663.js" crossorigin="anonymous"></script>
 <link href="style.css" rel="stylesheet">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 
 <div class="container">
     <?php
+
+    include 'data.php';
+
     $sessionOpened = false;
     session_set_cookie_params(3600 * 24 * 30,"/");
     session_start();
 
     if (empty($_SESSION['pseudo'])) {
-        if (isset($_POST['pseudo'])) {
+        if (isset($_POST['pseudo']) && !empty($_POST['pseudo'])) {
             $_SESSION['pseudo'] = $_POST['pseudo'];
-            $sessionOpened = true;
+
+            $isAdmin = ($_POST['pseudo'] == $nameAdmin);
+            if ($isAdmin) {
+                if (isset($_POST['password']) && $_POST['password'] == $passwordAdmin) {
+                    $_SESSION['password'] = true;
+                    $sessionOpened = true;
+                } else {
+                    $sessionOpened = false;
+                }
+            } else {
+                $sessionOpened = true;
+            }
+        } else {
+            $sessionOpened = false;
         }
     } else {
-        $sessionOpened = true;
+        $isAdmin = ($_SESSION['pseudo'] == $nameAdmin);
+        if ($isAdmin) {
+            if (isset($_SESSION['password']) || isset($_POST['password']) && $_POST['password'] == $passwordAdmin) {
+                $_SESSION['password'] = true;
+                $sessionOpened = true;
+            } else {
+                $sessionOpened = false;
+            }
+        } else {
+            $sessionOpened = true;
+        }
     }
 
     if ($sessionOpened) {
@@ -35,6 +61,16 @@
         <div class="mt-5 mb-5 d-flex justify-content-between">
             <div>
                 Bienvenue <span id="pseudo" class="big-text"><?= $_SESSION['pseudo'] ?></span> !
+                <?php
+                if ($isAdmin) { ?>
+                    <span onclick="displayMsgToValidate($(this))" id="btnMsgToValidate" class="ml-2 pointer">
+                        <i class="fa fa-envelope white"></i>
+                        <span class="badge badge-secondary" id="nbMsgToValidate"></span>
+                    </span>
+                    <span onclick="displayMsgValidated($(this))" id="btnMsgValidated" class="ml-2 pointer d-none">
+                        <i class="fa fa-angle-double-left white"></i>
+                    </span>
+                <?php } ?>
             </div>
             <div>
                 <button type="button" class="btn" data-toggle="modal" data-target="#modalNewMsg">
@@ -45,7 +81,7 @@
 
         <div id="messages">
             <?php
-            $query = $bdd->query('SELECT id, pseudo, message, DATE_FORMAT(creationDate, "%e/%m %H:%i") as dateFormatted FROM messages ORDER BY id DESC LIMIT 0,10');
+            $query = $bdd->query('SELECT id, pseudo, message, DATE_FORMAT(creationDate, "%e/%m %H:%i") as dateFormatted, status FROM messages WHERE status = "VALIDE" ORDER BY creationDate DESC LIMIT 0,10');
             while($data = $query->fetch()){
                 echo getMessageDisplay($data);
             }
@@ -53,9 +89,9 @@
             ?>
         </div>
 
-    <?php
+        <?php
     } else {
-        include 'modalConnection.html';
+        include 'modalConnection.php';
     } ?>
 </div>
 

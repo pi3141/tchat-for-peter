@@ -16,10 +16,36 @@ body {
     background-color: white;
 }
 
+.medium-icon {
+    font-size: xx-large;
+}
 .big-icon {
     font-size: xxx-large;
 }
 
 .big-text {
     font-size: 1.4rem;
+}
+
+.white {
+    color: white;
+}
+
+.badge {
+    position: relative;
+    bottom: 11px;
+    right: 9px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+/* COLORS */
+.green {
+    color: forestgreen;
+}
+
+.red {
+    color: darkred;
 }
