@@ -1,3 +1,8 @@
+<?php
+session_set_cookie_params(3600 * 24 * 30,"/");
+session_start();
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,8 +22,6 @@
     include 'data.php';
 
     $sessionOpened = false;
-    session_set_cookie_params(3600 * 24 * 30,"/");
-    session_start();
 
     if (empty($_SESSION['pseudo'])) {
         if (isset($_POST['pseudo']) && !empty($_POST['pseudo'])) {

@@ -1,5 +1,5 @@
 $(function() {
-    load();
+    // load();
 
     $.get('getNbMsg.php', {'status': 'A_VALIDER'}, function(nb) {
         $('#nbMsgToValidate').html(nb);
