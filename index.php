@@ -81,11 +81,12 @@
 
         <div id="messages">
             <?php
-            $query = $bdd->query('SELECT id, pseudo, message, DATE_FORMAT(creationDate, "%e/%m %H:%i") as dateFormatted, status FROM messages WHERE status = "VALIDE" ORDER BY creationDate DESC LIMIT 0,10');
-            while($data = $query->fetch()){
-                echo getMessageDisplay($data);
+
+            $messages = getMessages($bdd, 'VALIDE');
+
+            foreach ($messages as $message) {
+                echo getMessageDisplay($message);
             }
-            $query->closeCursor();
             ?>
         </div>
 

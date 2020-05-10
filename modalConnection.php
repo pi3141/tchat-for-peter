@@ -1,3 +1,4 @@
+<?php include 'functions.php' ?>
 <div id="modalNewMsg" tabindex="-1" role="dialog" aria-labelledby="modalNewMsgLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -10,12 +11,11 @@
                 </div>
                 <div class="modal-body">
                     <?php $value = $_SESSION['pseudo'] ?? ''; ?>
-                    Ton nom : <input type="text" name="pseudo" id="pseudo" value="<?= $value ?>"/><br />
+                    Ton nom : <input type="text" name="pseudo" id="pseudo" value="<?= $value ?>"/><br/>
                     <?php
-                        if($isAdmin) { ?>
+                        if(isAdmin()) { ?>
                             Mot de passe : <input type="password" name="password">
-                        <?php }
-                    ?>
+                        <?php } ?>
                 </div>
                 <div class="modal-footer">
                     <input type="submit" name="connect" class="btn btn-success" value="OK">

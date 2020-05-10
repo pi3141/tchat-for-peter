@@ -12,23 +12,16 @@ body {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-.post:hover {
+.post:hover:not(.opacity) {
     background-color: white;
 }
 
-.medium-icon {
-    font-size: xx-large;
-}
-.big-icon {
-    font-size: xxx-large;
+.opacity {
+    filter: brightness(50%);
 }
 
 .big-text {
     font-size: 1.4rem;
-}
-
-.white {
-    color: white;
 }
 
 .badge {
@@ -41,11 +34,24 @@ body {
     cursor: pointer;
 }
 
+.mt-neg {
+    margin-top: -10px;
+}
 /* COLORS */
 .green {
     color: forestgreen;
 }
-
 .red {
     color: darkred;
+}
+.white {
+    color: white;
+}
+
+/* ICONS */
+.medium-icon {
+    font-size: xx-large;
+}
+.big-icon {
+    font-size: xxx-large;
 }

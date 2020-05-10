@@ -2,7 +2,7 @@ $(function() {
     load();
 
     $.get('getNbMsg.php', {'status': 'A_VALIDER'}, function(nb) {
-            $('#nbMsgToValidate').html(nb);
+        $('#nbMsgToValidate').html(nb);
     });
 })
 
@@ -12,7 +12,7 @@ $('#submitInsert').click(function(e){
     let message = encodeURIComponent( $('#message').val() );
 
     if (message != "") {
-        let data = "message=" + message + "&pseudo=" + $('#pseudo').text();
+        let data = "message=" + message + "&pseudo=" + $('#pseudo').text() + '&parentMsgId=' + $('#parent-msg').val();
         $.post('insert.php', data, function(load) {
             if (load) {
                 $.get('load.php', function(html) {
@@ -57,4 +57,13 @@ function moderateMsg($btn, isValidated) {
        $post.remove();
        $divBtn.remove();
     });
+}
+
+function reply($btn) {
+    let $modalNewMsg = $('#modalNewMsg');
+    let $divBtn = $btn.closest('div');
+    let $post = $divBtn.prev('.post');
+    let id = $post.attr('id');
+    $modalNewMsg.find('#parent-msg').val(id);
+    $modalNewMsg.modal('show');
 }

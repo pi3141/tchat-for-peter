@@ -6,14 +6,25 @@ if (!empty($_POST['message'])){
 
     $now = new DateTime('now');
 
-    $insertion = $bdd->prepare('INSERT INTO messages(pseudo, message, creationDate, status) VALUES(:pseudo, :message, NOW(), :status)');
+    $isAReply = isset($_POST['parentMsgId']) && !empty($_POST['parentMsgId']);
 
+    $insertion = $bdd->prepare('INSERT INTO messages(pseudo, message, creationDate, status' .
+        ($isAReply ? ', replyTo' : '') .
+        ') VALUES(:pseudo, :message, NOW(), :status' .
+        ($isAReply ? ', :parentMsgId' : '') . ')');
+
+    $isAdmin = isAdmin();
     $status = $isAdmin ? 'VALIDE' : 'A_VALIDER';
-    $insertion->execute([
+
+    $params = [
         'pseudo' => $_POST['pseudo'] ?? 'anonyme',
         'message' => $_POST['message'],
         'status' => $status
-    ]);
+    ];
+    if ($isAReply) {
+        $params['parentMsgId'] = (int)$_POST['parentMsgId'];
+    }
+    $insertion->execute($params);
 
     echo $isAdmin;
 }
